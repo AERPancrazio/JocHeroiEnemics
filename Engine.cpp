@@ -7,7 +7,7 @@ Engine::Engine() {
 	//mides de la finestra
 	viewSize.x = 1128;
 	viewSize.y = 688;
-	//construïm la finestra de joc.
+	//construÃ¯m la finestra de joc.
 	window.create(sf::VideoMode(viewSize.x, viewSize.y),
 		"Joc heroi - enemic",
 		sf::Style::Default);
@@ -96,10 +96,7 @@ void Engine::updateInput() {
 			}
 		
 		}
-		// Update the score text
-		std::stringstream ss;
-		ss << "Score = " << score;
-		scoreText.setString(ss.str());
+		
 		//condicions per tancar el programa
 		if (event.key.code == sf::Keyboard::Escape || event.type == sf::Event::Closed)
 		window.close();
@@ -125,7 +122,7 @@ void Engine::spawnEnemy() {
 
 }
 void Engine::update(float dt) {
-	//actualitzem la posició del personatg
+	//actualitzem la posiciÃ³ del personatg
 	Andreu.update(dt);
 	//modifiquem el temps per sabre el que ha passat
 	currentTime += dt;
@@ -142,6 +139,10 @@ void Engine::update(float dt) {
 		Xaviers[i]->update(dt);
 		if (Xaviers[i]->getSprite().getPosition().x <= 0) {
 			gameover = true;
+			for (int j = Xaviers.size() - 1; j >= 0; j--) {
+				delete Xaviers[j];
+				Xaviers.erase(Xaviers.begin() + j);
+			}
 		}
 	}
 
@@ -165,6 +166,11 @@ void Engine::update(float dt) {
 				Miquelets.erase(Miquelets.begin() + i);
 				Xaviers.erase(Xaviers.begin() + j);		
 				score = score + 1;
+				// Update the score text
+				std::stringstream ss;
+				ss << "Score = " << score;
+				scoreText.setString(ss.str());
+				
 			}	
 		}
 	}
